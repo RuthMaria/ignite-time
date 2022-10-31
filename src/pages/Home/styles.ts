@@ -54,7 +54,7 @@ const BaseInput = styled.input`
 export const TaskInput = styled(BaseInput)`
   flex: 1;
 
-  /*remove a setinha que fica do select*/
+  /*remove a setinha que fica do select, só funciona no chorme, se quiser nos outros na vegadores, tem que pesquisar*/
   &::-webkit-calendar-picker-indicator {
     display: none !important;
   }
