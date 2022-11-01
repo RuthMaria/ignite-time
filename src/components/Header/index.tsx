@@ -11,6 +11,7 @@ export const Header: React.FC = () => {
       <span>
         <img src={logoIgnite} alt="" />
       </span>
+
       <nav>
         <NavLink to="/" title="Timer">
           <Timer size={24} />

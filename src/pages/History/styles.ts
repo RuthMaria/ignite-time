@@ -19,7 +19,7 @@ export const HistoryList = styled.div`
 
   table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; // para as linhas da tabela conmpartilharem a mesma borda, e não somá-las
     min-width: 600px;
 
     th {
@@ -49,7 +49,7 @@ export const HistoryList = styled.div`
       line-height: 1.6;
 
       &:first-child {
-        width: 50%;
+        width: 50%; // faz com que a primeira coluna ocupe 50%
         padding-left: 1.5rem;
       }
 
@@ -67,7 +67,7 @@ const STATUS_COLORS = {
 } as const; /* força ser uma tipagem do tipo enum */
 
 interface StatusProps {
-  statusColor: keyof typeof STATUS_COLORS /*pega apenas as chaves do objeto (yellow | green | red) */;
+  statusColor: keyof typeof STATUS_COLORS /*pega apenas as chaves do objeto (yellow | green | red) e usa como tipagem*/;
 }
 
 export const Status = styled.span<StatusProps>`
