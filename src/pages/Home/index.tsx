@@ -1,8 +1,10 @@
 import React from 'react';
+import * as zod from 'zod';
 import { Play } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { differenceInSeconds } from 'date-fns';
 import { zodResolver } from '@hookform/resolvers/zod'; // '@hookform/resolvers' faz a integração do react-hook-form com o zod, vc pode escolher outro validador também (joi, yup)
-import * as zod from 'zod';
 
 import {
   CountdownContainer,
@@ -22,14 +24,65 @@ const newCycleFormValidationSchema = zod.object({
     .max(60, 'O ciclo precisa ser de no máximo 60 minutos.'),
 });
 
-export const Home: React.FC = () => {
-  const { register, handleSubmit, watch, formState } = useForm({
-    resolver: zodResolver(newCycleFormValidationSchema),
-  });
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>; // cria a tipagem a partir do objeto do zod
 
-  function handleCreateNewCycle(data: any) {
-    console.log(data);
+interface Cycle {
+  id: string;
+  task: string;
+  minutesAmount: number;
+  startDate: Date;
+}
+
+export const Home: React.FC = () => {
+  const [cycles, setCycles] = useState<Cycle[]>([]);
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
+
+  const { register, handleSubmit, watch, formState, reset } =
+    useForm<NewCycleFormData>({
+      resolver: zodResolver(newCycleFormValidationSchema),
+      defaultValues: {
+        task: '',
+        minutesAmount: 0,
+      },
+    });
+
+  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
+
+  useEffect(() => {
+    if (activeCycle) {
+      setInterval(() => {
+        setAmountSecondsPassed(
+          differenceInSeconds(new Date(), activeCycle.startDate)
+        );
+      }, 1000);
+    }
+  }, [activeCycle]);
+
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    const id = String(new Date().getTime()); // pega a data atual e transforma em milisegundos, assim teremos um id diferente para cada ciclo
+
+    const newCycle: Cycle = {
+      id,
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+      startDate: new Date(),
+    };
+
+    setCycles((state) => [...state, newCycle]); // clousures, usar dessa forma quando precisa dos estados anteriores, é equivalente ao [..cycles, newCycle]
+    setActiveCycleId(id);
+
+    reset(); // limpa todos os campos do form voltando-os para o valor definido no defaultValues
   }
+
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
+
+  const minutesAmount = Math.floor(currentSeconds / 60); // arrendonda a divisão para baixo
+  const secondsAmount = currentSeconds % 60;
+
+  const minutes = String(minutesAmount).padStart(2, '0'); // define que tem que ter no mínimo 2 caracteres, caso não tenha o zero será colocado na frente
+  const seconds = String(secondsAmount).padStart(2, '0');
 
   console.log(formState.errors); // mostra todos os erros do formulário
 
@@ -70,11 +123,11 @@ export const Home: React.FC = () => {
         </FormContainer>
 
         <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
           <Separator>:</Separator>
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountdownContainer>
 
         <StartCountdownButton disabled={isSubmitDisable} type="submit">

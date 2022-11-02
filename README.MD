@@ -35,6 +35,8 @@ Timeline where you can:
 
 ![video](./src/assets/video.gif)
 
+Acesse esse layout no [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK/Ignite-Timer-(Community)?node-id=0%3A1>).
+
 <a id="technologies"></a><br>
 
 ## ⚒️ Technologies Used
@@ -43,6 +45,8 @@ Timeline where you can:
 - TypeScript
 - Styled components
 - React hook form
+- Zod
+- Date-fns
 
 <a id="run"></a><br>
 
