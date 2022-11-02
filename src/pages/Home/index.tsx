@@ -50,13 +50,19 @@ export const Home: React.FC = () => {
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
   useEffect(() => {
+    let interval: number;
+
     if (activeCycle) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setAmountSecondsPassed(
           differenceInSeconds(new Date(), activeCycle.startDate)
         );
       }, 1000);
     }
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [activeCycle]);
 
   function handleCreateNewCycle(data: NewCycleFormData) {
@@ -71,6 +77,7 @@ export const Home: React.FC = () => {
 
     setCycles((state) => [...state, newCycle]); // clousures, usar dessa forma quando precisa dos estados anteriores, é equivalente ao [..cycles, newCycle]
     setActiveCycleId(id);
+    setAmountSecondsPassed(0);
 
     reset(); // limpa todos os campos do form voltando-os para o valor definido no defaultValues
   }
@@ -83,6 +90,12 @@ export const Home: React.FC = () => {
 
   const minutes = String(minutesAmount).padStart(2, '0'); // define que tem que ter no mínimo 2 caracteres, caso não tenha o zero será colocado na frente
   const seconds = String(secondsAmount).padStart(2, '0');
+
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `${minutes}:${seconds}`;
+    }
+  }, [minutes, seconds, activeCycle]);
 
   console.log(formState.errors); // mostra todos os erros do formulário
 
