@@ -47,6 +47,8 @@ Acesse esse layout no [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK
 - React hook form
 - Zod
 - Date-fns
+- Context API
+-
 
 <a id="run"></a><br>
 
