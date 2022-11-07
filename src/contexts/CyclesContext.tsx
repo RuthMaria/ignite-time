@@ -1,17 +1,15 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useState, useReducer } from 'react';
+import { Cycle, cyclesReducer } from '../reducers/cycles/reducer';
+import {
+  ActionTypes,
+  addNewCycleAction,
+  interruptCurrentCycleAction,
+  markCurrentCycleAsFinishedAction,
+} from '../reducers/cycles/actions';
 
 interface CreateCycleData {
   task: string;
   minutesAmount: number;
-}
-
-export interface Cycle {
-  id: string;
-  task: string;
-  minutesAmount: number;
-  startDate: Date;
-  interruptedDate?: Date;
-  finishedDate?: Date;
 }
 
 interface CyclesContextType {
@@ -31,12 +29,26 @@ interface CyclesContextProviderProps {
   children: ReactNode;
 }
 
+/*
+O useReducer recebe dois parâmetros:
+função callback: onde o primeiro argumento é o estado inicial e o segundo é a ação que será executada.
+valor inicial: este valor será usado para inicialização
+
+o useReducer retorna dois valores:
+- a informação armazenada(cycles)
+- uma função que dispara a action passada (dispatch)
+*/
+
 export const CyclesContextProvider: React.FC<CyclesContextProviderProps> = ({
   children,
 }) => {
-  const [cycles, setCycles] = useState<Cycle[]>([]);
-  const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
+  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
+    cycles: [],
+    activeCycleId: null,
+  });
+
+  const { cycles, activeCycleId } = cyclesState;
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
@@ -45,15 +57,7 @@ export const CyclesContextProvider: React.FC<CyclesContextProviderProps> = ({
   }
 
   function markCurrentCycleAsFinished() {
-    setCycles((state) =>
-      state.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return { ...cycle, finishedDate: new Date() };
-        } else {
-          return cycle;
-        }
-      })
-    );
+    dispatch(markCurrentCycleAsFinishedAction());
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -66,22 +70,13 @@ export const CyclesContextProvider: React.FC<CyclesContextProviderProps> = ({
       startDate: new Date(),
     };
 
-    setCycles((state) => [...state, newCycle]); // clousures, usar dessa forma quando precisa dos estados anteriores, é equivalente ao [..cycles, newCycle]
-    setActiveCycleId(id);
+    dispatch(addNewCycleAction(newCycle));
+
     setAmountSecondsPassed(0);
   }
 
   function interruptCurrentCycle() {
-    setCycles((state) =>
-      state.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return { ...cycle, interruptedDate: new Date() };
-        } else {
-          return cycle;
-        }
-      })
-    );
-    setActiveCycleId(null);
+    dispatch(interruptCurrentCycleAction());
   }
 
   return (

@@ -48,7 +48,7 @@ Acesse esse layout no [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK
 - Zod
 - Date-fns
 - Context API
--
+- Immer
 
 <a id="run"></a><br>
 
