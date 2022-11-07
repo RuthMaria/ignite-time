@@ -49,6 +49,7 @@ Acesse esse layout no [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK
 - Date-fns
 - Context API
 - Immer
+- LocalStorage
 
 <a id="run"></a><br>
 
