@@ -22,12 +22,11 @@
 
 ## :books: About
 
-Timeline where you can:
+Application that manages time like pomodoro, where you can:
 
-- See posts
-- Publish comments
-- Like comments
-- Delete comments
+- Set a name for the stopwatch
+- Set a maximum time of 1h
+- View previous timing history
 
 <a id="execution"></a><br>
 
@@ -35,7 +34,7 @@ Timeline where you can:
 
 ![video](./src/assets/video.gif)
 
-Acesse esse layout no [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK/Ignite-Timer-(Community)?node-id=0%3A1>).
+Access this layout in [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK/Ignite-Timer-(Community)?node-id=0%3A1>).
 
 <a id="technologies"></a><br>
 
