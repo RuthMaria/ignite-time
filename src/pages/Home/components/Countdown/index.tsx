@@ -24,6 +24,7 @@ export const Countdown: React.FC = () => {
           new Date(),
           new Date(activeCycle.startDate)
         );
+
         if (secondsDifference >= totalSeconds) {
           markCurrentCycleAsFinished();
           setSecondsPassed(totalSeconds);

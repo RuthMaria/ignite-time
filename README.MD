@@ -42,6 +42,8 @@ Access this layout in [Figma](<https://www.figma.com/file/a88Y07FDqha4VuQ0oPlFMK
 
 - React.js
 - TypeScript
+- HTML5
+- CSS3
 - Styled components
 - React hook form
 - Zod

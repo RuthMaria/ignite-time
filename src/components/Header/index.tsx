@@ -1,16 +1,21 @@
 import React from 'react';
-import { HeaderContainer } from './styles';
+import { NavLink } from 'react-router-dom';
 import { Scroll, Timer } from 'phosphor-react';
 
 import logoIgnite from '../../assets/logo-ignite.svg';
-import { NavLink } from 'react-router-dom';
+
+import { HeaderContainer } from './styles';
 
 export const Header: React.FC = () => {
   return (
     <HeaderContainer>
-      <span>
-        <img src={logoIgnite} alt="" />
-      </span>
+      <NavLink to="/">
+        <img
+          src={logoIgnite}
+          alt="Setas verdes inclinadas para o canto superior esquerdo"
+          title="Ignite Logo"
+        />
+      </NavLink>
 
       <nav>
         <NavLink to="/" title="Timer">

@@ -1,13 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+
+import { Home } from './pages/Home';
+import { History } from './pages/History';
 import { DefaultLayout } from './layouts/DefaultLayout';
 
-import { History } from './pages/History';
-import { Home } from './pages/Home';
-
-{
-  /*todas as rotas que começam com '\' terão o defaultLayout aplicado*/
-}
+/* Todas as rotas que começam com '\' terão o defaultLayout aplicado */
 
 export const Router: React.FC = () => {
   return (

@@ -1,17 +1,18 @@
+import * as zod from 'zod';
 import React, { useContext } from 'react';
 import { Play, HandPalm } from 'phosphor-react';
-import { NewCycleForm } from './components/NewCycleForm';
-import { Countdown } from './components/Countdown';
-import * as zod from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'; // '@hookform/resolvers' faz a integração do react-hook-form com o zod, vc pode escolher outro validador também (joi, yup)
 import { FormProvider, useForm } from 'react-hook-form';
+
+import { Countdown } from './components/Countdown';
+import { NewCycleForm } from './components/NewCycleForm';
+import { CyclesContext } from '../../contexts/CyclesContext';
 
 import {
   HomeContainer,
   StartCountdownButton,
   StopCountdownButton,
 } from './styles';
-import { CyclesContext } from '../../contexts/CyclesContext';
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
@@ -21,7 +22,7 @@ const newCycleFormValidationSchema = zod.object({
     .max(60, 'O ciclo precisa ser de no máximo 60 minutos.'),
 });
 
-type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>; // cria a tipagem a partir do objeto do zod
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>; // cria a tipagem a partir do objeto do zod (task | minutesAmount)
 
 /*
  Prop Drilling => Quando a gente tem MUITAS propriedades APENAS para comunicação entre componentes

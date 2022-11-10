@@ -7,7 +7,6 @@ import {
 } from 'react';
 import { Cycle, cyclesReducer } from '../reducers/cycles/reducer';
 import {
-  ActionTypes,
   addNewCycleAction,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
@@ -40,9 +39,10 @@ interface CyclesContextProviderProps {
 O useReducer recebe dois parâmetros:
 função callback: onde o primeiro argumento é o estado inicial e o segundo é a ação que será executada.
 valor inicial: este valor será usado para inicialização
+outro valor inicial: este valor é passado mais lentamente
 
 o useReducer retorna dois valores:
-- a informação armazenada(cycles)
+- a informação armazenada(cyclesState)
 - uma função que dispara a action passada (dispatch)
 */
 
@@ -97,13 +97,13 @@ export const CyclesContextProvider: React.FC<CyclesContextProviderProps> = ({
     dispatch(markCurrentCycleAsFinishedAction());
   }
 
-  function createNewCycle(data: CreateCycleData) {
+  function createNewCycle({ task, minutesAmount }: CreateCycleData) {
     const id = String(new Date().getTime()); // pega a data atual e transforma em milisegundos, assim teremos um id diferente para cada ciclo
 
     const newCycle: Cycle = {
       id,
-      task: data.task,
-      minutesAmount: data.minutesAmount,
+      task,
+      minutesAmount,
       startDate: new Date(),
     };
 

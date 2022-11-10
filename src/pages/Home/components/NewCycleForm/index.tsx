@@ -22,7 +22,6 @@ export const NewCycleForm: React.FC = () => {
         <option value="Projeto 1" />
         <option value="Projeto 2" />
         <option value="Projeto 3" />
-        <option value="Banana" />
       </datalist>
 
       <label htmlFor="minutesAmount">durante</label>
